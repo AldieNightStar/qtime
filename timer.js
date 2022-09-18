@@ -55,10 +55,3 @@ function updateTimers(action) {
         }
     }
 }
-
-// Service worker (Make this timer work offline)
-if('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('sw.js');
-    });
-}
