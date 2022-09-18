@@ -17,18 +17,20 @@ self.addEventListener('install', function(event) {
     );
 });
 
-// When trying to get something from internet
+// Listens to request from application.
 self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request)
             .then(function(response) {
-                if (response) {
-                    // The requested file exists in the cache so we return it from the cache.
-                    return response;
-                }
 
-                // The requested file is not present in cache so we send it forward to the internet
-                return fetch(event.request);
+                // You can remove this line if you don't want to load other files from cache anymore.
+                if (response) return response;
+
+                // If fetch fails, we return offline.html from cache.
+                return fetch(event.request)
+                    .catch(err => {
+                        return caches.match('index.html');
+                    })
             }
         )
     );
